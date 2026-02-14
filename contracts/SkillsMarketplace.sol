@@ -13,30 +13,49 @@ contract SkillsMarketplace {
     // - How will you track workers and their skills?
     // - How will you store gig information?
     // - How will you manage payments?
-    
+    address public owner;
+    uint256 public gigCounter;
+
+    constructor() {
     address public owner;
     
     constructor() {
         owner = msg.sender;
     }
     
-    // TODO: Implement registerWorker function
-    // Requirements:
-    // - Workers should be able to register with their skill
-    // - Prevent duplicate registrations
-    // - Emit an event when a worker registers
-    function registerWorker(string memory skill) public {
-        // Your implementation here
+     struct Worker {
+        string skill;
+        bool isRegistered;
     }
     
-    // TODO: Implement postGig function
-    // Requirements:
-    // - Employers post gigs with bounty (msg.value)
-    // - Store gig description and required skill
-    // - Ensure ETH is sent with the transaction
-    // - Emit an event when gig is posted
+    struct Gig {
+        address employer;
+        string description;
+        string skillRequired;
+        uint256 bounty;
+        bool isOpen;
+        bool isCompleted;
+        address selectedWorker;
     function postGig(string memory description, string memory skillRequired) public payable {
         // Your implementation here
+    function postGig(string memory description, string memory skillRequired) public payable {
+        require(msg.value > 0, "Bounty required");
+        require(bytes(description).length > 0, "Description required");
+        require(bytes(skillRequired).length > 0, "Skill required");
+
+        gigs[gigCounter] = Gig({
+            employer: msg.sender,
+            description: description,
+            skillRequired: skillRequired,
+            bounty: msg.value,
+            isOpen: true,
+            isCompleted: false,
+            selectedWorker: address(0)
+        });
+
+        emit GigPosted(gigCounter, msg.sender, msg.value);
+        gigCounter++;
+    
         // Think: How do you safely hold the ETH until work is approved?
     }
     
@@ -48,6 +67,20 @@ contract SkillsMarketplace {
     // - Emit an event
     function applyForGig(uint256 gigId) public {
         // Your implementation here
+
+     function applyForGig(uint256 gigId) public {
+        require(workers[msg.sender].isRegistered, "Not registered");
+        require(gigs[gigId].isOpen, "Gig not open");
+        require(!hasApplied[gigId][msg.sender], "Already applied");
+        require(
+            keccak256(bytes(workers[msg.sender].skill)) ==
+            keccak256(bytes(gigs[gigId].skillRequired)),
+            "Skill mismatch"
+        );
+
+        hasApplied[gigId][msg.sender] = true;
+
+        em
     }
     
     // TODO: Implement submitWork function
@@ -58,6 +91,15 @@ contract SkillsMarketplace {
     // - Emit an event
     function submitWork(uint256 gigId, string memory submissionUrl) public {
         // Your implementation here
+
+    function submitWork(uint256 gigId, string memory submissionUrl) public {
+        require(hasApplied[gigId][msg.sender], "Did not apply");
+        require(gigs[gigId].isOpen, "Gig not open");
+        require(bytes(submissionUrl).length > 0, "Submission required");
+        submissions[gigId][msg.sender] = submissionUrl;
+        gigs[gigId].selectedWorker = msg.sender;
+
+        emit WorkSubmitted(gigId, msg.sender, submissionUrl);
     }
     
     // TODO: Implement approveAndPay function
@@ -69,6 +111,16 @@ contract SkillsMarketplace {
     // - Emit an event
     function approveAndPay(uint256 gigId, address worker) public {
         // Your implementation here
+         function approveAndPay(uint256 gigId, address worker) public {
+        Gig storage gig = gigs[gigId];
+
+        require(msg.sender == gig.employer, "Not employer");
+        require(gig.isOpen, "Gig closed");
+        require(!gig.isCompleted, "Already completed");
+        require(gig.selectedWorker == worker, "Worker not selected");
+        require(hasApplied[gigId][worker], "Worker did not apply");
+
+        uint256 amount = gig.bounty;
         // Security: Use checks-effects-interactions pattern!
     }
     

@@ -1,6 +1,6 @@
 # Part A: MCQ Answers
 
-**Status:** [In Progress / Submitted]  
+**Status:** [ Submitted]  
 
 ---
 
@@ -29,10 +29,10 @@
 - **C)** Use ERC-721 exclusively, store all data off-chain for gas savings, and require buyers to use MetaMask with manual price negotiations.  
 - **D)** Build everything as separate NFT collections with no DEX integration since farmers won't understand DeFi protocols.  
 
-**Your Answer:** [A/B/C/D]  
+**Your Answer:** B
 
 **Your Reasoning:**  
-[2–3 sentences explaining why you chose this answer. What makes it the best choice?]  
+[ERC-1155 alows batch mining which allows batch mining which is suitabe for farmers listing miltuiple identical produce items while reducing gas, storing repoutition as on-chain mapping ensures transperency and ownership of data and with combining it with Dex it removes intermediaries and enables trustless sawp between famers and buyers which aligns with decentralisation principles.]  
 
 ---
 
@@ -53,12 +53,47 @@ A farmer wants to list 50 bags of maize. Gas costs are:
 - **C)** They cost exactly the same  
 - **D)** ERC-1155 is cheaper by approximately $54  
 
-**Your Answer:** [A/B/C/D]  
+**Your Answer:** [D]  
 
 **Your Calculation/Reasoning:**  
-- ERC-721 cost = [Show calculation]
-- ERC-1155 cost = [Show calculation]
-- Difference = [Show calculation]
+- reason: ERC-721 Cost
+100,000 gas per NFT
+For 50 NFTs:
+
+100,000 × 50 = 5,000,000 gas
+
+Gas price = 20 gwei
+1 gwei = 10⁻⁹ ETH
+
+5,000,000 × 20 gwei
+= 100,000,000 gwei
+= 0.1 ETH
+
+0.1 ETH × $3,000
+= $300
+
+ERC-1155 Cost
+First mint = 150,000 gas
+Additional 49 items = 49 × 5,000 = 245,000 gas
+
+Ttl gas = 150,000 + 245,000
+= 395,000 gas
+
+395,000 × 20 gwei
+= 7,900,000 gwei
+= 0.0079 ETH
+
+0.0079 ETH × $3,000
+= $23.70
+
+Difference
+$300 − $23.70 = $276.30
+
+ERC-1155 is  cheaper. :
+
+ ERC-1155 is cheaper by nearly $54
+
+ reducing gas costs makes the system economically viable and it ensures decentralization doesnt become a luxury higher gas, High transaction fees are a major barrier to blockchain adoption in Africa, this will reduce famers operating on a thin profit margins .
 
 
 [Explain why gas optimisation matters for African users]  
@@ -76,10 +111,11 @@ A farmer asks: *"Why can't we just use a normal website with a database?"*
 - **C)** "Because smart contracts are more secure than databases and Web3 is decentralised."  
 - **D)** "Blockchain uses cryptography which makes it unhackable, unlike normal databases."  
 
-**Your Answer:** [A/B/C/D]  
+**Your Answer:** [B]  
 
 **Your Explanation:**  
-[2–3 sentences explaining what makes this answer correct. What did you learn about why blockchain matters in Africa?]  
+[reason:removal of middlemen manipulation, and portable on-chain reputation  In African markets where trust, corruption, and delayed payments are real issues, blockchain provides transparency and ownership of economic identity. It focuses on value, not hype.
+]  
 
 ---
 
@@ -103,15 +139,45 @@ A farmer asks: *"Why can't we just use a normal website with a database?"*
 - **C)** The liquidity provider experiences impermanent loss because the pool maintains a constant product rather than constant ratio. ERC-721 would be more suitable than ERC-1155 for the NFT marketplace since individual NFTs require unique transactions.  
 - **D)** The constant product formula prevents any impermanent loss by automatically rebalancing. DAOs cannot implement financial protections due to smart contract immutability. ERC-1155 tokens are incompatible with standard DEX protocols.  
 
-**Your Answer:** [A/B/C/D]  
+**Your Answer:** [B]
 
 **Your Reasoning:**  
 
-- **AMM Mathematics:** How do you calculate the swap output? What happens to the liquidity provider's value?  
-- **DeFi Governance:** What is impermanent loss and how does protection work?  
-- **Token Standards:** Why might ERC-1155 be preferred over ERC-721 for marketplace integration?  
+reason: x = 10 ETH
+y = 20,000 USDC
 
-[2–3 sentences synthesising these concepts into a coherent explanation]  
+k = x × y
+= 10 × 20,000
+= 200,000
+
+After trader adds 2 ETH:
+
+New ETH balance = 12 ETH
+
+Using constant product formula:
+
+12 × y = 200,000
+
+y = 200,000 / 12
+≈ 16,666.67 USDC
+
+USDC output:
+
+20,000 − 16,666.67
+≈ 3,333 USDC
+
+The liquidity provider now holds a different asset ratio, exposing them to impermanent loss if the external price diverges.
+
+The liquidity provider now holds a different asset ratio, exposing them to impermanent loss if the external price diverges.
+
+DeFi Governance
+Impermanent loss occurs when the price of assets changes compared to when liquidity was deposited. Governance token holders can vote to implement IL protection, meaning LPs may receive compensation for example; from protocol fees or token emissions. This demonstrates how DAOs can evolve financial incentives through collective decision-making.
+
+Token Standards
+ERC-1155 supports batch transfers and can represent both fungible and non-fungible tokens. For an NFT marketplace integrated with a DEX, this reduces gas costs and simplifies liquidity handling compared to ERC-721, which requires separate transactions per token.
+
+Synthesis
+Option B correctly combines AMM math, governance-based risk mitigation, and efficient token standard design. It demonstrates understanding of mechanics, economics, and implementation — not just definitions.
 
 ---
 
@@ -125,4 +191,13 @@ A farmer asks: *"Why can't we just use a normal website with a database?"*
 
 ---
 
-**Challenges faced:** [What was difficult? Which concepts are you less confident about?]  
+**Challenges faced:** [
+    Precise AMM swap calculation under time pressure
+
+Understanding how impermanent loss protection mechanisms are implemented in practice
+
+Evaluating realistic gas assumptions
+
+I am confident in architecture decisions and token standards, but would like deeper practical exposure to AMM design and DeFi incentive modelling.
+
+]  

@@ -12,7 +12,15 @@ contract SecureLottery {
     uint256 public lotteryId;
     uint256 public lotteryStartTime;
     bool public isPaused;
-    
+    uint256 public constant MIN_ENTRY = 0.01 ether;
+
+    address[] public entries;
+    mapping(address => uint256) public playerEntryCount;
+    mapping(address => bool) private hasEntered;
+    address[] public uniquePlayers;
+
+bool private locked;
+
     // TODO: Define additional state variables
     // Consider:
     // - How will you track entries?
